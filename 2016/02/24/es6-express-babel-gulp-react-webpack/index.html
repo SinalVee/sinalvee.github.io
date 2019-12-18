@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/apple-touch-icon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.sinalvee.io').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":"disqus","storage":true,"lazyload":false,"nav":null,"activeClass":"disqus"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="自己动手才发现原来写篇好文章真的是太难了，如果评个等级的话，这篇文章大概是渣渣水平，哈哈。不过，总算是写完了，也算是最近学习的一个总结吧 :) 本文目录 准备工作 项目目录结构 Express 安装 写个server测试一下   Babel 安装 配置.babelrc 使用es6语法编写代码 使用bebel转换   Gulp 安装 编写gulpfile 一个简单的gulpfile 能够监听文件更改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6 + Express + Babel + Gulp + React + Webpack">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.sinalvee.io&#x2F;2016&#x2F;02&#x2F;24&#x2F;es6-express-babel-gulp-react-webpack&#x2F;index.html">
+<meta property="og:site_name" content="SinalVee Blog">
+<meta property="og:description" content="自己动手才发现原来写篇好文章真的是太难了，如果评个等级的话，这篇文章大概是渣渣水平，哈哈。不过，总算是写完了，也算是最近学习的一个总结吧 :) 本文目录 准备工作 项目目录结构 Express 安装 写个server测试一下   Babel 安装 配置.babelrc 使用es6语法编写代码 使用bebel转换   Gulp 安装 编写gulpfile 一个简单的gulpfile 能够监听文件更改">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-02-24T15:06:58.000Z">
+<meta property="article:modified_time" content="2016-02-24T15:06:58.000Z">
+<meta property="article:author" content="SinalVee">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="es2015">
+<meta property="article:tag" content="express">
+<meta property="article:tag" content="babel">
+<meta property="article:tag" content="gulp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.sinalvee.io/2016/02/24/es6-express-babel-gulp-react-webpack/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>ES6 + Express + Babel + Gulp + React + Webpack | SinalVee Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="SinalVee Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SinalVee Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">SinalVee</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2016/02/24/es6-express-babel-gulp-react-webpack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SinalVee">
+      <meta itemprop="description" content="SinalVee Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SinalVee Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ES6 + Express + Babel + Gulp + React + Webpack
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-02-24 15:06:58" itemprop="dateCreated datePublished" datetime="2016-02-24T15:06:58+00:00">2016-02-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NodeJS/" itemprop="url" rel="index">
+                    <span itemprop="name">NodeJS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2016/02/24/es6-express-babel-gulp-react-webpack/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/02/24/es6-express-babel-gulp-react-webpack/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>自己动手才发现原来写篇好文章真的是太难了，如果评个等级的话，这篇文章大概是渣渣水平，哈哈。<br>不过，总算是写完了，也算是最近学习的一个总结吧 :)</p>
+<h2 id="本文目录"><a href="#本文目录" class="headerlink" title="本文目录"></a>本文目录</h2><ul>
+<li><a href="#prepare">准备工作</a></li>
+<li><a href="#toc">项目目录结构</a></li>
+<li><a href="#express">Express</a><ul>
+<li><a href="#express-install">安装</a></li>
+<li><a href="#express-server">写个server测试一下</a></li>
+</ul>
+</li>
+<li><a href="#babel">Babel</a><ul>
+<li><a href="#babel-install">安装</a></li>
+<li><a href="#babelrc">配置.babelrc</a></li>
+<li><a href="#babel-es6">使用es6语法编写代码</a></li>
+<li><a href="#babel-transform">使用bebel转换</a></li>
+</ul>
+</li>
+<li><a href="#gulp">Gulp</a><ul>
+<li><a href="#gulp-install">安装</a></li>
+<li><a href="#gulpfile">编写gulpfile</a><ul>
+<li><a href="#gulpfile-default">一个简单的gulpfile</a></li>
+<li><a href="#gulpfile-watch">能够监听文件更改的gulpfile</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#react-webpack">React + Webpack</a><ul>
+<li><a href="#react-webpack-install">安装</a></li>
+<li><a href="#webpack-config">编写webpack.config.js</a></li>
+<li><a href="#gulp-webpack">在gulp中使用webpack</a></li>
+<li><a href="#react">使用React</a></li>
+</ul>
+</li>
+<li><a href="#summary">总结</a></li>
+</ul>
+<a id="more"></a> 
+
+<p><a id="prepare"></a></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>作为一个noder，开始一切之前当然少不了<code>npm init</code><br>关于express, babel, gulp, webpack, react本文不进行介绍，如有需要可以到其主页自行了解。<br><a href="http://expressjs.com/" target="_blank" rel="noopener">Express</a><br><a href="https://babeljs.io/" target="_blank" rel="noopener">Babel</a><br><a href="http://gulpjs.com/" target="_blank" rel="noopener">Gulp</a><br><a href="https://facebook.github.io/react/" target="_blank" rel="noopener">React</a><br><a href="https://webpack.github.io/" target="_blank" rel="noopener">Webpack</a></p>
+<p><a id="toc"></a></p>
+<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">app</span><br><span class="line">├─ lib&#x2F;</span><br><span class="line">├─ public&#x2F;</span><br><span class="line">│  ├─ dist&#x2F;</span><br><span class="line">│  └─ src&#x2F;</span><br><span class="line">│      └─ index.js</span><br><span class="line">├─ src&#x2F;</span><br><span class="line">│  └─ app.js</span><br><span class="line">├─ .babelrc</span><br><span class="line">├─ index.html</span><br><span class="line">├─ gulpfile.babel.js</span><br><span class="line">├─ package.json</span><br><span class="line">├─ README.md</span><br><span class="line">└─ webpack.config.js</span><br></pre></td></tr></table></figure>
+
+<p><a id="express"></a></p>
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><p><a id="express-install"></a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>这次准备纯手写，所以不用<code>express-generator</code>生成了，简单的示例尽量不使用多余的中间件。<br><code>npm install --save express body-parser</code></p>
+<p><a id="express-server"></a></p>
+<h3 id="写个server测试一下"><a href="#写个server测试一下" class="headerlink" title="写个server测试一下"></a>写个server测试一下</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/app.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"><span class="keyword">var</span> router = express.Router();</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.json());</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">true</span> &#125;));</span><br><span class="line">app.use(cookieParser());</span><br><span class="line"></span><br><span class="line">router.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  res.end(<span class="string">'Hello World!'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">'/'</span>, router);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'server listening at port 3000...'</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>简单起见，404和error handler就不写了。<br><code>node src/app.js</code>跑起来，浏览器打开<a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a>，可以看到页面中显示<code>Hello World!</code>了。</p>
+<p><a id="babel"></a></p>
+<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><p>babel升级到6.x之后，需要明确指定转换，我们使用预设的es2015。</p>
+<p><a id="babel-install"></a></p>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p><code>npm install -g babel-core</code><br><code>npm install --save-dev babel-core babel-preset-es2015</code></p>
+<p><a id="babelrc"></a></p>
+<h3 id="配置-babelrc"><a href="#配置-babelrc" class="headerlink" title="配置.babelrc"></a>配置.babelrc</h3><p>在根目录新建.babelrc文件，配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;es2015&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a id="babel-es6"></a></p>
+<h3 id="使用es6语法编写代码"><a href="#使用es6语法编写代码" class="headerlink" title="使用es6语法编写代码"></a>使用es6语法编写代码</h3><p>我们现在将之前写过的<code>src/app.js</code>修改为es6语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; src&#x2F;app.js</span><br><span class="line"></span><br><span class="line">import express, &#123; Router &#125; from &#39;express&#39;;</span><br><span class="line">import bodyParser from &#39;body-parser&#39;;</span><br><span class="line"></span><br><span class="line">let app &#x3D; express();</span><br><span class="line">let router &#x3D; Router();</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.json());</span><br><span class="line">app.use(bodyParser.urlencoded(&#123; extended: true &#125;));</span><br><span class="line">app.use(cookieParser());</span><br><span class="line"></span><br><span class="line">router.get(&#39;&#x2F;&#39;, (req, res, next) &#x3D;&gt; &#123;</span><br><span class="line">  res.end(&#39;Hello World!&#39;);</span><br><span class="line">&#125;);</span><br><span class="line">app.use(&#39;&#x2F;&#39;, router);</span><br><span class="line"></span><br><span class="line">app.listen(3000, () &#x3D;&gt; &#123;</span><br><span class="line">  console.log(&#39;server listening at port 3000...&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><a id="babel-transform"></a></p>
+<h3 id="使用bebel转换"><a href="#使用bebel转换" class="headerlink" title="使用bebel转换"></a>使用bebel转换</h3><p>将代码修改为es6语法之后，就可以使用babel进行转换了。<br>使用命令<code>babel src -d lib</code><br>可以看到控制台中显示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src&#x2F;app.js -&gt; lib&#x2F;app.js</span><br></pre></td></tr></table></figure>
+<p>之后还是运行一下看看效果，浏览器打开<a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a>，我们和熟悉的<code>Hello World</code>又见面啦。</p>
+<p><a id="gulp"></a></p>
+<h2 id="Gulp"><a href="#Gulp" class="headerlink" title="Gulp"></a>Gulp</h2><p>每次修改完代码都要重新用babel转换一次是不是很麻烦？别怕，我们有gulp。</p>
+<p><a id="gulp-install"></a></p>
+<h3 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g gulp-cli</span><br><span class="line">npm install --save-dev gulp gulp-babel</span><br></pre></td></tr></table></figure>
+
+<p><a id="gulpfile"></a></p>
+<h3 id="编写gulpfile"><a href="#编写gulpfile" class="headerlink" title="编写gulpfile"></a>编写gulpfile</h3><p>在根目录新建一个gulpfile.babel.js文件。<br>gulp原生并不支持es6语法，但是我们可以告诉gulp使用babel将gulpfile转换为es5，方法就是将gulpfile命名为gulpfile.babel.js</p>
+<p><a id="gulpfile-default"></a></p>
+<h4 id="一个简单的gulpfile"><a href="#一个简单的gulpfile" class="headerlink" title="一个简单的gulpfile"></a>一个简单的gulpfile</h4><p>我们先写一个简单的gulpfile测试一下gulp是否能够正常工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import gulp from &#39;gulp&#39;;</span><br><span class="line">import babel from &#39;gulp-babel&#39;;</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;default&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  return gulp.src(&#39;src&#x2F;**&#x2F;*.js&#39;)</span><br><span class="line">    .pipe(babel())</span><br><span class="line">    .pipe(gulp.dest(&#39;lib&#39;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>控制台执行<code>gulp</code>，可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[13:00:35] Requiring external module babel-register</span><br><span class="line">[13:00:36] Using gulpfile &#x2F;path&#x2F;to&#x2F;file&#x2F;gulpfile.babel.js</span><br><span class="line">[13:00:36] Starting &#39;default&#39;...</span><br><span class="line">[13:00:36] Finished &#39;default&#39; after 191 ms</span><br></pre></td></tr></table></figure>
+<p>然后lib文件夹下就生成了转换后的文件了。</p>
+<p><a id="gulpfile-watch"></a></p>
+<h4 id="能够监听文件更改的gulpfile"><a href="#能够监听文件更改的gulpfile" class="headerlink" title="能够监听文件更改的gulpfile"></a>能够监听文件更改的gulpfile</h4><p>虽然上面的gulpfile能够将使用了，但是还是跟之前直接用babel一样，每次都要gulp一下，下面我们就来写一个能够监听文件的gulpfile。当文件被修改之后，自动将文件转换。<br>这里使用<code>gulp-watch</code>监听文件更改。<br><code>npm install --save-dev gulp-watch</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import gulp from &#39;gulp&#39;;</span><br><span class="line">import watch from &#39;gulp-watch&#39;;</span><br><span class="line">import babel from &#39;gulp-babel&#39;;</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;transform&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  return gulp.src(&#39;src&#x2F;**&#x2F;*.js&#39;)</span><br><span class="line">    .pipe(babel())</span><br><span class="line">    .pipe(gulp.dest(&#39;lib&#39;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;watch&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  return gulp.src(&#39;src&#x2F;**&#x2F;*.js&#39;)</span><br><span class="line">    .pipe(watch(&#39;src&#x2F;**&#x2F;*.js&#39;, &#123;</span><br><span class="line">      verbose: true</span><br><span class="line">    &#125;))</span><br><span class="line">    .pipe(babel())</span><br><span class="line">    .pipe(gulp.dest(&#39;lib&#39;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;default&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  gulp.start(&#39;transform&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>控制台执行<code>gulp watch</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[14:11:46] Requiring external module babel-register</span><br><span class="line">[14:11:47] Using gulpfile &#x2F;file&#x2F;to&#x2F;path&#x2F;gulpfile.babel.js</span><br><span class="line">[14:11:47] Starting &#39;watch&#39;...</span><br></pre></td></tr></table></figure>
+<p>然后修改app.js并保存，可以看到控制台中多了一行信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[14:13:20] app.js was changed</span><br></pre></td></tr></table></figure>
+<p>对于gulp其他的用法这里就不细说了，有兴趣的可以去看桑大<code>i5ting</code>的<a href="http://i5ting.github.io/stuq-gulp/" target="_blank" rel="noopener">Gulp实战和原理解析（以weui作为项目实例）</a></p>
+<p><a id="react-webpack"></a></p>
+<h2 id="React-Webpack"><a href="#React-Webpack" class="headerlink" title="React + Webpack"></a>React + Webpack</h2><p><a id="react-webpack-install"></a></p>
+<h3 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h3><p>react<br><code>npm install --save react react-dom</code><br>webpack<br><code>npm install --save-dev webpack webpack-dev-server</code><br>为了编译jsx，我们还需要其他一些模块<br><code>npm install --save-dev babel-loader babel-preset-react</code></p>
+<p><a id="webpack-config"></a></p>
+<h3 id="编写webpack-config-js"><a href="#编写webpack-config-js" class="headerlink" title="编写webpack.config.js"></a>编写webpack.config.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var path &#x3D; require(&#39;path&#39;);</span><br><span class="line">var webpack &#x3D; require(&#39;webpack&#39;);</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  devtool: &#39;eval&#39;,</span><br><span class="line">  entry: &#123;</span><br><span class="line">    public: &#39;.&#x2F;public&#x2F;src&#x2F;index&#39;</span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.join(__dirname, &#39;public&#x2F;dist&#39;),</span><br><span class="line">    filename: &#39;bundle.js&#39;,</span><br><span class="line">    publicPath: &#39;public&#x2F;dist&#39;</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [],</span><br><span class="line">  module: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: &#x2F;\.js$&#x2F;,</span><br><span class="line">        include: [path.join(__dirname, &#39;public&#x2F;src&#39;)],</span><br><span class="line">        loader: &#39;babel&#39;,</span><br><span class="line">        query: &#123;</span><br><span class="line">          presets: [&#39;react&#39;, &#39;es2015&#39;]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><a id="gulp-webpack"></a></p>
+<h3 id="在gulp中使用webpack"><a href="#在gulp中使用webpack" class="headerlink" title="在gulp中使用webpack"></a>在gulp中使用webpack</h3><p>修改<code>gulpfile.babel.js</code>，添加<code>build</code>和<code>webpack-dev-server</code>任务，分别是生成打包文件和启动开发服务器，并将<code>default</code>修改为同时执行<code>transform</code>和<code>webpack-dev-server</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import gulp from &#39;gulp&#39;;</span><br><span class="line">import gutil from &#39;gulp-util&#39;;</span><br><span class="line">import watch from &#39;gulp-watch&#39;;</span><br><span class="line">import babel from &#39;gulp-babel&#39;;</span><br><span class="line">import webpack from &#39;webpack&#39;;</span><br><span class="line">import WebpackDevServer from &#39;webpack-dev-server&#39;;</span><br><span class="line"></span><br><span class="line">import webpackConfig from &#39;.&#x2F;webpack.config.js&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; transform</span><br><span class="line">gulp.task(&#39;transform&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  return gulp.src(&#39;src&#x2F;**&#x2F;*.js&#39;)</span><br><span class="line">    .pipe(babel())</span><br><span class="line">    .pipe(gulp.dest(&#39;lib&#39;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; watch transform</span><br><span class="line">gulp.task(&#39;watch-transform&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">  return gulp.src(&#39;src&#x2F;**&#x2F;*.js&#39;)</span><br><span class="line">    .pipe(watch(&#39;src&#x2F;**&#x2F;*.js&#39;, &#123;</span><br><span class="line">      verbose: true</span><br><span class="line">    &#125;))</span><br><span class="line">    .pipe(babel())</span><br><span class="line">    .pipe(gulp.dest(&#39;lib&#39;));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;webpack:build&#39;, (callback) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; modify some webpack config options</span><br><span class="line">  var myConfig &#x3D; Object.create(webpackConfig);</span><br><span class="line">  myConfig.plugins &#x3D; myConfig.plugins.concat(</span><br><span class="line">    new webpack.DefinePlugin(&#123;</span><br><span class="line">      &#39;process.env&#39;: &#123;</span><br><span class="line">        &#x2F;&#x2F; This has effect on the react lib size</span><br><span class="line">        &#39;NODE_ENV&#39;: JSON.stringify(&#39;production&#39;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.optimize.DedupePlugin(),</span><br><span class="line">    new webpack.optimize.UglifyJsPlugin()</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; run webpack</span><br><span class="line">  webpack(myConfig, (err, stats) &#x3D;&gt; &#123;</span><br><span class="line">    if (err)</span><br><span class="line">      throw new gutil.PluginError(&#39;webpack:build&#39;, err);</span><br><span class="line">    gutil.log(&#39;[webpack:build]&#39;, stats.toString(&#123;</span><br><span class="line">      colors: true</span><br><span class="line">    &#125;));</span><br><span class="line">    callback();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;webpack-dev-server&#39;, (callback) &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; modify some webpack config options</span><br><span class="line">  var myConfig &#x3D; Object.create(webpackConfig);</span><br><span class="line">  myConfig.devtool &#x3D; &#39;eval&#39;;</span><br><span class="line">  myConfig.debug &#x3D; true;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Start a webpack-dev-server</span><br><span class="line">  new WebpackDevServer(webpack(myConfig), &#123;</span><br><span class="line">    publicPath: &#39;&#x2F;&#39; + myConfig.output.publicPath,</span><br><span class="line">    stats: &#123;</span><br><span class="line">      colors: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;).listen(3001, &#39;localhost&#39;, (err) &#x3D;&gt; &#123;</span><br><span class="line">    if (err) throw new gutil.PluginError(&#39;webpack-dev-server&#39;, err);</span><br><span class="line">    gutil.log(&#39;[webpack-dev-server]&#39;, &#39;http:&#x2F;&#x2F;localhost:3001&#x2F;&#39;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(&#39;default&#39;, [&#39;watch-transform&#39;, &#39;webpack-dev-server&#39;]);</span><br></pre></td></tr></table></figure>
+
+<p><a id="react"></a></p>
+<h3 id="使用React"><a href="#使用React" class="headerlink" title="使用React"></a>使用React</h3><p>在根目录下创建<code>index.html</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot; &#x2F;&gt;</span><br><span class="line">    &lt;title&gt;Hello Wrold&lt;&#x2F;title&gt;</span><br><span class="line">  &lt;&#x2F;head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;root&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;http:&#x2F;&#x2F;127.0.0.1:3001&#x2F;public&#x2F;dist&#x2F;bundle.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">  &lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>之后在<code>public/src</code>目录创建<code>index.js</code>文件，简单的写个hello world.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;h1&gt;Hello Wrold!!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;App /&gt;,</span><br><span class="line">  <span class="built_in">document</span>.getElementById(<span class="string">'root'</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>控制台执行<code>gulp webpack-dev-server</code>，打开<a href="http://localhost:3001/" target="_blank" rel="noopener">http://localhost:3001</a><br>我们和<code>Hello world!</code>第三次见面了～</p>
+<p><a id="summary"></a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到这里文章就结束了，然而这只是文章的结束，现在只是把大体的结构搭建起来了，剩下要做的还有很多，继续加油把～<br>PS: 我也不知道这种目录结构是否合理，如有不同意见，欢迎拍砖～</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/nodejs/" rel="tag"># nodejs</a>
+              <a href="/tags/es2015/" rel="tag"># es2015</a>
+              <a href="/tags/express/" rel="tag"># express</a>
+              <a href="/tags/babel/" rel="tag"># babel</a>
+              <a href="/tags/gulp/" rel="tag"># gulp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/02/20/nodejs-articles/" rel="prev" title="nodejs articles collection">
+      <i class="fa fa-chevron-left"></i> nodejs articles collection
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/03/18/a-tool-save-installed-module-to-npm-package/" rel="next" title="a tool save installed modules but forgot save to npm package.json">
+      a tool save installed modules but forgot save to npm package.json <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文目录"><span class="nav-number">1.</span> <span class="nav-text">本文目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目目录结构"><span class="nav-number">3.</span> <span class="nav-text">项目目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Express"><span class="nav-number">4.</span> <span class="nav-text">Express</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">4.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写个server测试一下"><span class="nav-number">4.2.</span> <span class="nav-text">写个server测试一下</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Babel"><span class="nav-number">5.</span> <span class="nav-text">Babel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-babelrc"><span class="nav-number">5.2.</span> <span class="nav-text">配置.babelrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用es6语法编写代码"><span class="nav-number">5.3.</span> <span class="nav-text">使用es6语法编写代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用bebel转换"><span class="nav-number">5.4.</span> <span class="nav-text">使用bebel转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gulp"><span class="nav-number">6.</span> <span class="nav-text">Gulp</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-2"><span class="nav-number">6.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写gulpfile"><span class="nav-number">6.2.</span> <span class="nav-text">编写gulpfile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个简单的gulpfile"><span class="nav-number">6.2.1.</span> <span class="nav-text">一个简单的gulpfile</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#能够监听文件更改的gulpfile"><span class="nav-number">6.2.2.</span> <span class="nav-text">能够监听文件更改的gulpfile</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Webpack"><span class="nav-number">7.</span> <span class="nav-text">React + Webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-3"><span class="nav-number">7.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写webpack-config-js"><span class="nav-number">7.2.</span> <span class="nav-text">编写webpack.config.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在gulp中使用webpack"><span class="nav-number">7.3.</span> <span class="nav-text">在gulp中使用webpack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用React"><span class="nav-number">7.4.</span> <span class="nav-text">使用React</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">SinalVee</p>
+  <div class="site-description" itemprop="description">SinalVee Blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sinalvee" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sinalvee" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2012 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SinalVee</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.1.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://sinalvee.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://blog.sinalvee.io/2016/02/24/es6-express-babel-gulp-react-webpack/",
+            identifier: "2016/02/24/es6-express-babel-gulp-react-webpack/",
+            title: "ES6 + Express + Babel + Gulp + React + Webpack"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://sinalvee.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>
