@@ -214,6 +214,296 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2012/08/10/classic-chapter-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SinalVee">
+      <meta itemprop="description" content="SinalVee Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SinalVee Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/08/10/classic-chapter-1/" class="post-title-link" itemprop="url">《算法竞赛入门经典》习题——Chapter</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2012-08-10 19:12:01 / 修改时间：19:12:00" itemprop="dateCreated datePublished" datetime="2012-08-10T19:12:01+00:00">2012-08-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2012/08/10/classic-chapter-1/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/08/10/classic-chapter-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="习题1-1-平均数（average）"><a href="#习题1-1-平均数（average）" class="headerlink" title="习题1-1 平均数（average）"></a>习题1-1 平均数（average）</h2><p>题目：输入3个整数，输出他们的平均值，保留3位小数。</p>
+<p>分析：主要考察的是C语言打印函数(printf)的输出格式。</p>
+<p>C中格式字符串的一般形式为： %[标志][输出最小宽度][.精度][长度]类型， 其中方括号[]中的项为可选项。各项的意义介绍如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">格式字符</th>
+<th>格式字符意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a</td>
+<td>浮点数、十六进制数字和p-计数法(C99)</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td>浮点数、十六进制数字和p-计数法(C99)</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td>输出单个字符</td>
+</tr>
+<tr>
+<td align="center">d</td>
+<td>以十进制形式输出带符号整数(正数不输出符号)</td>
+</tr>
+<tr>
+<td align="center">e</td>
+<td>以指数形式输出单、双精度实数</td>
+</tr>
+<tr>
+<td align="center">E</td>
+<td>以指数形式输出单、双精度实数</td>
+</tr>
+<tr>
+<td align="center">f</td>
+<td>小数形式输出单、双精度实数</td>
+</tr>
+<tr>
+<td align="center">g</td>
+<td>以%f%e中较短的输出宽度输出单、双精度实数,%e格式在指数小于-4或者大于等于精度时使用</td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td>以%f%e中较短的输出宽度输出单、双精度实数,%e格式在指数小于-4或者大于等于精度时使用</td>
+</tr>
+<tr>
+<td align="center">i</td>
+<td>有符号十进制整数(与%d相同)</td>
+</tr>
+<tr>
+<td align="center">o</td>
+<td>以八进制形式输出无符号整数(不输出前缀O)</td>
+</tr>
+<tr>
+<td align="center">p</td>
+<td>指针</td>
+</tr>
+<tr>
+<td align="center">s</td>
+<td>输出字符串</td>
+</tr>
+<tr>
+<td align="center">x</td>
+<td>以十六进制形式输出无符号整数(不输出前缀OX)</td>
+</tr>
+<tr>
+<td align="center">X</td>
+<td>以十六进制形式输出无符号整数(不输出前缀OX)</td>
+</tr>
+<tr>
+<td align="center">u</td>
+<td>以十进制形式输出无符号整数</td>
+</tr>
+</tbody></table>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-1 平均数（average）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="keyword">double</span> aver;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;a, &amp;b, &amp;c);</span><br><span class="line">	aver = (a+b+c) / <span class="number">3.0</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%.3lfn"</span>, aver);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-2-温度（temperature）"><a href="#习题1-2-温度（temperature）" class="headerlink" title="习题1-2 温度（temperature）"></a>习题1-2 温度（temperature）</h2><p>题目：输入华氏温度f，输出对应的摄氏温度c，保留3位小数。提示：<code>c = 5(f-32)/9</code>。<br>分析：同上题，主要考察的是C语言打印函数(printf)的输出格式。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-2 温度（temperature）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> f, c;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;f);</span><br><span class="line">	c = <span class="number">5</span>*(f<span class="number">-32</span>)/<span class="number">9</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%.3fn"</span>, c);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-3-连续和（sum）"><a href="#习题1-3-连续和（sum）" class="headerlink" title="习题1-3 连续和（sum）"></a>习题1-3 连续和（sum）</h2><p>题目：输入正整数n，输出1+2+3+……+n的值。提示：目标是解决问题，而不是练习编程。<br>分析：1+2+3=……+n = (1+n)*n/2  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-3 连续和（sum）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i, n, sum = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">	sum = (<span class="number">1</span>+n)*n/<span class="number">2</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%dn"</span>, sum);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-4-正弦和余弦（sincos）"><a href="#习题1-4-正弦和余弦（sincos）" class="headerlink" title="习题1-4 正弦和余弦（sincos）"></a>习题1-4 正弦和余弦（sincos）</h2><p>题目：输入正整数n（n&lt;360），输出n度的正弦、余弦函数值。提示：使用数学函数。<br>分析；考察的是数学函数的使用，注意角度和弧度的换算关系：180度 = pi * 1弧度。</p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-4 正弦和余弦（sin&amp;cos）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PI 3.1415926</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">	<span class="keyword">double</span> x;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">	x = n*(PI/<span class="number">180.0</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lfn"</span>, <span class="built_in">sin</span>(x));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%lfn"</span>, <span class="built_in">cos</span>(x));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-5-距离（distance）"><a href="#习题1-5-距离（distance）" class="headerlink" title="习题1-5 距离（distance）"></a>习题1-5 距离（distance）</h2><p>题目：输入4个浮点数x1, y1, x2, y2，输出平面坐标系点(x1, y1)到点(x2, y2)的距离。<br>分析：<br>1、平面直角坐标系中，两点间的距离公式为：根号下（|X1-X2|的平方+|Y1-Y2|的平方）。<br>2、平方函数sqrt属于math.h文件中。</p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-5 距离（distance）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;math.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> x1, x2, y1, y2, dis;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%f%f%f%f"</span>, &amp;x1, &amp;y1, &amp;x2, &amp;y2);</span><br><span class="line">	dis = <span class="built_in">sqrt</span>((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%fn"</span>, dis);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-6-偶数（odd）"><a href="#习题1-6-偶数（odd）" class="headerlink" title="习题1-6 偶数（odd）"></a>习题1-6 偶数（odd）</h2><p>题目：输入一个整数，判断它是否为偶数。如果是，则输出”yes”，否则输出”no”。提示：可以用多种方法判断。<br>分析：偶数的判断方法。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-6 偶数（odd）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">	<span class="keyword">if</span>(n%<span class="number">2</span> == <span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"yesn"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"non"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-7-打折（discount）"><a href="#习题1-7-打折（discount）" class="headerlink" title="习题1-7 打折（discount）"></a>习题1-7 打折（discount）</h2><p>题目：一件衣服95元，若消费满300元，可打八五折。输入购买衣服件数，输出需要支付的金额（单位：元），保留两位小数。<br>分析：if 的运用，easy。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-7 打折（discount）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n, money;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">	money = <span class="number">95</span>*n;</span><br><span class="line">	<span class="keyword">if</span>(money &gt;= <span class="number">300</span>)</span><br><span class="line">		money *= <span class="number">0.85</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%dn"</span>, money);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-8-绝对值（abs）"><a href="#习题1-8-绝对值（abs）" class="headerlink" title="习题1-8 绝对值（abs）"></a>习题1-8 绝对值（abs）</h2><p>题目：输入一个浮点数，输出它的绝对值，保留两位小数。<br>分析：if 运用，printf 输出格式。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-8 绝对值（abs）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">float</span> x;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%f"</span>, &amp;x);</span><br><span class="line">	<span class="keyword">if</span>(x&gt;<span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%fn"</span>, x);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%.2fn"</span>, -x);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-9-三角形（triangle）"><a href="#习题1-9-三角形（triangle）" class="headerlink" title="习题1-9 三角形（triangle）"></a>习题1-9 三角形（triangle）</h2><p>题目：输入三角形三边长度值（均为正整数），判断它是否能为直角三角形的三个边长。如果可以，则输出“yes”，如果不能，则输出“no”。如果根本无法构成三角形，则输出“not a triangle”。<br>分析：if 嵌套使用。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-9 三角形（triangle）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a, b, c;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d%d%d"</span>, &amp;a, &amp;b, &amp;c);</span><br><span class="line">	<span class="keyword">if</span>(a+b&gt;c &amp;&amp; a+c&gt;b &amp;&amp; b+c&gt;a)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a*a + b*b == c*c || a*a + c*c == b*b || b*b + c*c == a*a)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"yesn"</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"non"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"not a trianglen"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="习题1-10-年份（year）"><a href="#习题1-10-年份（year）" class="headerlink" title="习题1-10 年份（year）"></a>习题1-10 年份（year）</h2><p>题目：输入年份，判断是否为闰年。如果是，则输出“yes”，否则输出“no”。提示：简单地判断除以4的余数是不够的。<br>分析：if 嵌套使用，闰年的判断方法。  </p>
+<p>源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 习题1-10 年份（year）</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">	<span class="keyword">if</span>(n%<span class="number">4</span> == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(n%<span class="number">100</span> == <span class="number">0</span> &amp;&amp; n%<span class="number">400</span> != <span class="number">0</span>)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"non"</span>);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"yesn"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"non"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2012/08/06/hdoj-2057/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="SinalVee">
+      <meta itemprop="description" content="SinalVee Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SinalVee Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/08/06/hdoj-2057/" class="post-title-link" itemprop="url">hdoj-2057 A + B Again</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2012-08-06 11:44:00" itemprop="dateCreated datePublished" datetime="2012-08-06T11:44:00+00:00">2012-08-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/ACM/" itemprop="url" rel="index">
+                    <span itemprop="name">ACM</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2012/08/06/hdoj-2057/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/08/06/hdoj-2057/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最大长度为15位，所以用 __int64</p>
+<p>由于是二进制储存，所以当 a+b&lt;0的时候如果直接输出会输出ffff</p>
+<p>所以换一种形式输出负号加a+b的绝对值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hdoj_2057 A + B Again</span></span><br><span class="line"><span class="comment">// 0MS	220K	245 B	GCC</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		__int64 a, b, c;</span><br><span class="line">		<span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%I64x%I64x"</span>, &amp;a, &amp;b) != EOF)</span><br><span class="line">		&#123;</span><br><span class="line">	    c = a + b;</span><br><span class="line">	    <span class="keyword">if</span>(c &gt;= <span class="number">0</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%I64Xn"</span>, c);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"-%I64Xn"</span>, -c);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>%x 和 %X 输出后的字母大小写不同</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2012/08/05/hdoj-2054/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -925,190 +1215,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2012/08/02/int64-and-long-long/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="SinalVee">
-      <meta itemprop="description" content="SinalVee Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SinalVee Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/08/02/int64-and-long-long/" class="post-title-link" itemprop="url">__int64 类型（VC中）与long long 型（gcc中，C99标准）</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2012-08-02 17:40:00" itemprop="dateCreated datePublished" datetime="2012-08-02T17:40:00+00:00">2012-08-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/" itemprop="url" rel="index">
-                    <span itemprop="name">Notes</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2012/08/02/int64-and-long-long/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/08/02/int64-and-long-long/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>原文地址：<a href="http://blog.csdn.net/luxuejuncarl/article/details/1568457" target="_blank" rel="noopener">http://blog.csdn.net/luxuejuncarl/article/details/1568457</a></p>
-<p>int64 是有符号 64 位整数数据类型，也就是 C# 中的 long 和 SQL Server 中的 bigint，范围为 -2^63 (-9,223,372,036,854,775,808) 到 2^63-1 (9,223,372,036,854,775,807)，存储空间占 8 字节。用于整数值可能超过 int 数据类型支持范围的情况。</p>
-<p>c#中:</p>
-<p>Int64 值类型表示值介于 -9,223,372,036,854,775,808 到 9,223,372,036,854,775,807 之间的整数。</p>
-<p>Int64 为比较此类型的实例、将实例的值转换为它的字符串表示形式以及将数字的字符串表示形式转换为此类型的实例提供了相应的方法。</p>
-<p>警告 在 32 位 Intel 计算机上分配 64 位值不是原子操作；即该操作不是线程安全的。这意味着，如果两个人同时将一个值分配给一个静态 Int64 字段，则该字段的最终值是无法预测的。</p>
-<p>有关格式规范代码如何控制值类型的字符串表示形式的信息，请参见格式化化概述。此类型实现接口 IComparable、IFormattable 和 IConvertible。使用 Convert 类进行转换，而不是使用此类型的 IConvertible 显式接口成员实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C语言INT64  （VC中）</span><br><span class="line">__int64 是一个关键字，用_int64 来可以指定一个64位的整型变量</span><br><span class="line">__int8 nSmall;      &#x2F;&#x2F; 声明 8位 整数</span><br><span class="line">__int16 nMedium;    &#x2F;&#x2F; 声明 16位 整数</span><br><span class="line">__int32 nLarge;     &#x2F;&#x2F; 声明 32位 整数</span><br><span class="line">__int64 nHuge;      &#x2F;&#x2F; 声明 64位 整数</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">long   long是C99标准的C语言内置类型。需要符合C99的编译器</span><br><span class="line">g++ &#x2F;gcc中</span><br><span class="line"></span><br><span class="line">long long a;</span><br><span class="line">printf(&quot;%lld&quot;,a);  </span><br><span class="line"></span><br><span class="line">mingw32 中</span><br><span class="line"></span><br><span class="line">__int64 a;</span><br><span class="line">printf(&quot;%I64d&quot;,a);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.sinalvee.io/2012/08/02/hdoj-2028/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="SinalVee">
-      <meta itemprop="description" content="SinalVee Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SinalVee Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/08/02/hdoj-2028/" class="post-title-link" itemprop="url">hdoj-2028 Lowest Common Multiple Plus</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2012-08-02 17:07:00" itemprop="dateCreated datePublished" datetime="2012-08-02T17:07:00+00:00">2012-08-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/ACM/" itemprop="url" rel="index">
-                    <span itemprop="name">ACM</span>
-                  </a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2012/08/02/hdoj-2028/#comments" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2012/08/02/hdoj-2028/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hdoj_2028 Lowest Common Multiple Plus</span></span><br><span class="line"><span class="comment">// 0MS  228K  341 B  GCC</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    __int64 x, y, a, b, temp;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n) != EOF)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%I64d"</span>, &amp;x);</span><br><span class="line">        a = x;</span><br><span class="line">        <span class="keyword">while</span>(--n)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%I64d"</span>, &amp;y);</span><br><span class="line">            b = y;</span><br><span class="line">            <span class="keyword">while</span>(y)</span><br><span class="line">            &#123;</span><br><span class="line">                temp = x%y;</span><br><span class="line">                x = y;</span><br><span class="line">                y = temp;</span><br><span class="line">            &#125;</span><br><span class="line">            x = a*b/x;</span><br><span class="line">            a = x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%I64dn"</span>, x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">32位数……</span></span><br><span class="line"><span class="comment">int; long int; long long 都不行（理论上 __int64 和long long 是相同的，但由于用的是windows下的MingW，所以long long 不可以，__int64可以）</span></span><br><span class="line"><span class="comment">__int64可以</span></span><br><span class="line"><span class="comment">注意输入和输出的时候要用%I64d</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-
-<p>相关资料：<br><a href="http://blog.csdn.net/litiouslove/article/details/7824028" target="_blank" rel="noopener">__int64 类型（VC中）与long long 型（gcc中，C99标准）</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1179,7 +1285,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
